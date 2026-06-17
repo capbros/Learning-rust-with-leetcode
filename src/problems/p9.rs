@@ -14,7 +14,7 @@ impl Solution {
 }
 
 #[cfg(test)]
-mod palindrome_tests {
+mod tests {
     use super::Solution;
 
     #[test]

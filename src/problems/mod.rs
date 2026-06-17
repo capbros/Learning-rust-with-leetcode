@@ -1,5 +1,5 @@
-pub mod palindrome;
-pub mod roman_to_integer;
-pub mod palindromic_substring;
-pub mod zigzag;
-pub mod reverse_integers;
+pub mod p13;
+pub mod p5;
+pub mod p6;
+pub mod p7;
+pub mod p9;
