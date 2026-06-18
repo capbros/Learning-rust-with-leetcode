@@ -4,39 +4,44 @@
 pub struct Solution;
 
 impl Solution {
-    pub fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut nums = nums;
-        nums.sort_unstable();
+    pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
         let n = nums.len();
-        let mut i = 0;
-        let mut res: Vec<Vec<i32>> = Vec::new();
-        while i < n - 2 {
-            let e1 = nums[i];
+        // Size check is unnecessary
+        // if n < 3 {
+        //     return Vec::new();
+        // }
+        
+        nums.sort_unstable();
+        let mut res = Vec::new();
+
+        for i in 0..n - 2 {
+            // Skip duplicate values for i
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
+            
+            // Optimization: If current smallest is > 0, sum can never be 0
+            if nums[i] > 0 {
+                break;
+            }
+
             let mut j = i + 1;
             let mut k = n - 1;
-            while j < k
-            {
-                let e2 = nums[j];
-                let e3 = nums[k];
-                let sum = e1 + e2 + e3;
+
+            while j < k {
+                let sum = nums[i] + nums[j] + nums[k];
                 if sum == 0 {
-                    res.push(vec![e1, e2, e3]);
-                }
-                if sum >= 0 {
-                    loop {
-                        k -= 1;
-                        if k <= j || nums[k] != e3 {
-                            break;
-                        }
-                    }
-                } else {
+                    res.push(vec![nums[i], nums[j], nums[k]]);
+                    
+                    // Skip duplicates for j and k
+                    while j < k && nums[j] == nums[j + 1] { j += 1; }
+                    while j < k && nums[k] == nums[k - 1] { k -= 1; }
                     j += 1;
-                }
-            }
-            loop {
-                i += 1;
-                if i >= n - 2 || nums[i] != e1 {
-                    break;
+                    k -= 1;
+                } else if sum < 0 {
+                    j += 1;
+                } else {
+                    k -= 1;
                 }
             }
         }
