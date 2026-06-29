@@ -12,6 +12,7 @@ pub mod p18;
 pub mod p1833;
 pub mod p1846;
 pub mod p19;
+pub mod p1967;
 pub mod p20;
 pub mod p21;
 pub mod p22;
