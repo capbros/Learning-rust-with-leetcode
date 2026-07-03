@@ -10,44 +10,50 @@ struct QueueEntry {
 
 impl Solution {
     pub fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
-        let mut queue: VecDeque<QueueEntry> = VecDeque::new();
-        let mut visited: Vec<Vec<Vec<bool>>> =
-            vec![vec![vec![false; health as usize]; grid[0].len()]; grid.len()];
-        let health = if grid[0][0] > 0 { health - 1 } else { health };
-        queue.push_back(QueueEntry {
+        let mut deque: VecDeque<QueueEntry> = VecDeque::new();
+        let mut visited: Vec<Vec<bool>> =
+            vec![vec![false; grid[0].len()]; grid.len()];
+        deque.push_back(QueueEntry {
             row: 0,
             column: 0,
-            health,
+            health: if grid[0][0] > 0 {
+                health - 1
+            } else {
+                health
+            },
         });
-        if health == 0 {
-            return grid.len() == 1 && grid[0].len() == 1;
-        }
-        visited[0][0][(health - 1) as usize] = true;
+        visited[0][0] = true;
 
-        while let Some(head) = queue.pop_front() {
-            if head.row == grid.len() - 1 && head.column == grid[0].len() - 1 {
+        while let Some(head) = deque.pop_front() {
+            if head.row == grid.len() - 1 && head.column == grid[0].len() - 1  && head.health > 0 {
                 return true;
+            }
+            else if head.health <= 0 {
+                break;
             }
 
             let mut enqueue_point = |row: usize, column: usize| {
+                if visited[row][column] {
+                    return false;
+                }
                 let new_health;
                 if grid[row][column] > 0 {
                     new_health = head.health - 1;
-                } else {
-                    new_health = head.health;
-                }
-                if new_health > 0 && !visited[row][column][(new_health - 1) as usize] {
-                    queue.push_back(QueueEntry {
+                    deque.push_back(QueueEntry {
                         row,
                         column,
                         health: new_health,
                     });
-                    visited[row][column][(new_health - 1) as usize] = true;
-                    if row == grid.len() - 1 && column == grid[0].len() - 1 {
-                        return true;
-                    }
+                } else {
+                    new_health = head.health;
+                    deque.push_front(QueueEntry {
+                        row,
+                        column,
+                        health: new_health,
+                    });
                 }
-                false
+                visited[row][column] = true;
+                return row == grid.len() - 1 && column == grid[0].len() - 1 && new_health > 0;
             };
             let mut found = false;
             if head.column > 0 {
