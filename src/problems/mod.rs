@@ -20,6 +20,7 @@ pub mod p22;
 pub mod p23;
 pub mod p26;
 pub mod p3286;
+pub mod p3534;
 pub mod p3739;
 pub mod p5;
 pub mod p6;
