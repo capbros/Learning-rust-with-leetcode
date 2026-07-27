@@ -1,16 +1,9 @@
-# LeetCode Rust Solutions
+# Learning Rust with Leetcode
 
-This workspace is set up as a small Rust library for LeetCode-style solutions.
+This workspace is set up as a small Rust library for LeetCode-style solutions. The solution to the problems were developed as a way to get more acquainted with the programming language and its basic features.
 
 ## Layout
 
-- `src/lib.rs` exposes the solution modules.
-- `src/problems/` contains one file per problem.
-- Each problem module can include its own unit tests.
-
-## Adding a new problem
-
-1. Create `src/problems/<problem_name>.rs`.
-2. Add `pub mod <problem_name>;` to `src/problems/mod.rs`.
-3. Implement the solution and add tests in the same module.
-4. Run `cargo test`.
+- `src/problems/` contains one module per problem
+- `src/utils/` contains various utility modules of useful functions for solving problems and testing solutions.
+- Each problem module includes unit tests, most of them available on the corresponding problem page on LeetCode
