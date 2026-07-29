@@ -15,23 +15,18 @@ impl ListNode {
 }
 
 impl Solution {
-    pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut p = head.as_deref();
-        let mut res: Option<Box<ListNode>> = None;
-        let mut target = &mut res;
-        while let Some(cur) = p {
-            if let Some(next) = cur.next.as_deref() {
-                let node = target.insert(Box::new(ListNode::new(next.val)));
-                target = &mut node.next;
-                p = next.next.as_deref();
-            }
-            else {
-                p = cur.next.as_deref();
-            }
-            let node = target.insert(Box::new(ListNode::new(cur.val)));
-            target = &mut node.next;
+    pub fn swap_pairs(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut p = &mut head;
+        while p.as_deref().is_some_and(|x| x.next.is_some()) {
+            let mut cur = p.take().unwrap();
+            let next = cur.next.take().unwrap();
+            let node = p.insert(next);
+            let rest = node.next.take();
+            let node = node.next.insert(cur);
+            node.next = rest;
+            p = &mut node.next;
         }
-        res
+        head
     }
 }
 
